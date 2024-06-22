@@ -1,0 +1,1 @@
+Task 7 for 10 milion experiments results are the same as theoretical up to 0.01
