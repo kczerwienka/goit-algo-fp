@@ -31,22 +31,23 @@ def greedy_algorithm(items, amount):
 
 
 
-# def find_min_coins(value, count, amount) -> dict:
-#     return_change = {1 : 0, 2 : 0, 5 : 0, 10 : 0, 25 : 0, 50 : 0} 
-    
-#     i = 5
+def dynamic_programming(w, items, n):
+    # create a table K to store the optimal values of the subtasks
+    K = [[0 for w in range(w + 1)] for i in range(n + 1)]
+    R = [[{k:0 for k in items.keys()} for w in range(w + 1)] for i in range(n + 1)]
 
-#     while amount > 0:
+    # build table K from the bottom up
+    for i in range(n + 1):
+        for w in range(w + 1):
+            for item in items:
+                if i == 0 or w == 0:
+                    K[i][w] = 0
+                elif items[item]["cost"] <= w:
+                    K[i][w] = max(items[item]["calories"] + K[i - 1][w - items[item]["cost"]], K[i - 1][w])
+                else:
+                    K[i][w] = K[i - 1][w]
 
-#         if amount >= value[i] and count[i] > 0:
-        
-#             amount -= value[i]
-#             return_change[value[i]] += 1
-        
-#         else:
-#             i -= 1
-
-#     return return_change
+    return K[n][w]
 
 items = {
     "pizza": {"cost": 50, "calories": 300},
@@ -59,3 +60,6 @@ items = {
 amount = 100
 
 print(greedy_algorithm(items, amount))
+
+n = 10
+print(dynamic_programming(amount, items, n))
