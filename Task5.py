@@ -47,11 +47,33 @@ def visualize_heap(root, key, i):
             root.right = visualize_heap(root.right, key, i)
     return root
 
+preorder = []
+def preorder_traversal(root,node_color):
+  global inorder
+  if root:
+    print(root.val)
+    root.color = node_color[len(preorder)]
+    preorder.append(root.val)
+    preorder_traversal(root.left, node_color)
+    preorder_traversal(root.right, node_color)
+
+inorder = []
+def inorder_traversal(root,node_color):
+    global inorder
+    if root:
+        inorder_traversal(root.left , node_color)
+        
+        print(root.val)
+        root.color = node_color[len(inorder)]
+        inorder.append(root.val)
+        
+        inorder_traversal(root.right, node_color)
+
 nums = [4, 10, 3, 5, 1, 2 ,3]
 heapq.heapify(nums)
 
 
-# Creating the treew
+# Creating the tree
 root = Node(nums[0])
 root.left = Node(nums[1])
 root.right = Node(nums[2])
@@ -59,10 +81,25 @@ root.left.left = Node(nums[3])
 root.left.right = Node(nums[4])
 root.right.left = Node(nums[5])
 
+# Displaying the tree
+# draw_tree(root)
 
+color_gen =[]
+for i in range (0, len(nums)-1):
+    color_gen.append([int(255/len(nums)*i),int(255/len(nums)*i),int(255/len(nums)*i)])
 
+node_color=[ '#%02x%02x%02x' % (c[0],c[1],c[2]) for c in color_gen ]
+
+#in order traversal
+
+inorder_traversal(root, node_color)
 
 # Displaying the tree
 draw_tree(root)
 
+#Preorder traversal
 
+preorder_traversal(root, node_color)
+
+# Displaying the tree
+draw_tree(root)
